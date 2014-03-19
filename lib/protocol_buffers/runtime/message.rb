@@ -410,7 +410,8 @@ module ProtocolBuffers
     #   # is equivalent to
     #   message.f1
     def value_for_tag(tag)
-      self.__send__(fields[tag].name)
+      v = self.__send__(fields[tag].name)
+      v ? v : fields[tag].default_value
     end
 
     def set_value_for_tag(tag, value)
@@ -423,7 +424,7 @@ module ProtocolBuffers
     #   # is equivalent to
     #   message.has_f1?
     def value_for_tag?(tag)
-      @set_fields[tag] || false
+      @set_fields[tag] || fields[tag].default_value || false
     end
 
     # Gets the field, returning nil if not set
